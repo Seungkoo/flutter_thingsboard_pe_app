@@ -15,10 +15,10 @@ import 'package:thingsboard_pe_client/thingsboard_client.dart';
 
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   @override
-  String get title => 'Devices';
+  String get title => '기기';
 
   @override
-  String get noItemsFoundText => 'No devices found';
+  String get noItemsFoundText => '기기가 없습니다.';
 
   @override
   Future<PageData<EntityData>> fetchEntities(EntityDataQuery dataQuery) {
@@ -40,12 +40,12 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
             dashboardTitle: device.field('name'), state: state);
       } else {
         showErrorNotification(
-            'You don\'t have permissions to perform this operation!');
+            '이 작업에 대한 권한이 없습니다!');
       }
     } else {
       if (tbClient.isTenantAdmin()) {
         showWarnNotification(
-            'Mobile dashboard should be configured in device profile!');
+            '기기 프로파일에서 모바일 대시보드가 구성되어 있지 않습니다!');
       }
     }
   }

@@ -33,10 +33,10 @@ const Map<AlarmStatus, String> alarmStatusTranslations = {
 
 mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
   @override
-  String get title => 'Alarms';
+  String get title => '알람';
 
   @override
-  String get noItemsFoundText => 'No alarms found';
+  String get noItemsFoundText => '알람이 없습니다.';
 
   @override
   Future<PageData<AlarmInfo>> fetchEntities(AlarmQuery query) {
@@ -55,12 +55,12 @@ mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {
             dashboardTitle: alarm.originatorName, state: state);
       } else {
         showErrorNotification(
-            'You don\'t have permissions to perform this operation!');
+            '이 작업을 수행할 권한이 없습니다.!');
       }
     } else {
       if (tbClient.isTenantAdmin()) {
         showWarnNotification(
-            'Mobile dashboard should be configured in device profile alarm rules!');
+            '디바이스 프로파일 알람 룰에서 모바일 대시보드가 지정되어 있어야 합니다!');
       }
     }
   }

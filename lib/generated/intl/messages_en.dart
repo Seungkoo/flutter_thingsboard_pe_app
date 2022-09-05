@@ -192,8 +192,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "resendCodeWait": m2,
         "selectWayToVerify":
             MessageLookupByLibrary.simpleMessage("Select a way to verify"),
+        "sets": MessageLookupByLibrary.simpleMessage("Sets"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
+        "sites": MessageLookupByLibrary.simpleMessage("Sites"),
         "smsAuthDescription": m3,
         "smsAuthPlaceholder": MessageLookupByLibrary.simpleMessage("SMS code"),
         "stateOrProvince":

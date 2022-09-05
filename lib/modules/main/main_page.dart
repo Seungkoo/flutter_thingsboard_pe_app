@@ -4,6 +4,8 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/modules/alarm/alarms_page.dart';
 import 'package:thingsboard_app/modules/device/devices_main_page.dart';
+import 'package:thingsboard_app/modules/site/sites_page.dart';
+import 'package:thingsboard_app/modules/set/sets_page.dart';
 import 'package:thingsboard_app/modules/home/home_page.dart';
 import 'package:thingsboard_app/modules/more/more_page.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
@@ -23,9 +25,9 @@ class TbMainNavigationItem {
   static Map<Authority, Set<String>> mainPageStateMap = {
     Authority.SYS_ADMIN: Set.unmodifiable(['/home', '/more']),
     Authority.TENANT_ADMIN:
-        Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
+        Set.unmodifiable(['/home', '/sites', '/sets', '/alarms', '/devices', '/more']),
     Authority.CUSTOMER_USER:
-        Set.unmodifiable(['/home', '/alarms', '/devices', '/more']),
+        Set.unmodifiable(['/home', '/sites', '/sets', '/alarms', '/devices', '/more']),
   };
 
   static bool isMainPageState(TbContext tbContext, String path) {
@@ -53,6 +55,16 @@ class TbMainNavigationItem {
         case Authority.CUSTOMER_USER:
           items.addAll([
             TbMainNavigationItem(
+                page: SitesPage(tbContext),
+                title: 'Sites',
+                icon: Icon(Icons.construction),
+                path: '/sites'),
+            TbMainNavigationItem(
+                page: SetsPage(tbContext),
+                title: 'Sets',
+                icon: Icon(Icons.heat_pump),
+                path: '/sets'),
+            TbMainNavigationItem(
                 page: AlarmsPage(tbContext),
                 title: 'Alarms',
                 icon: Icon(Icons.notifications),
@@ -61,7 +73,8 @@ class TbMainNavigationItem {
                 page: DevicesMainPage(tbContext),
                 title: 'Devices',
                 icon: Icon(Icons.devices_other),
-                path: '/devices')
+                path: '/devices'),
+
           ]);
           break;
         case Authority.REFRESH_TOKEN:
@@ -88,6 +101,12 @@ class TbMainNavigationItem {
       switch (item.path) {
         case '/home':
           item.title = '${S.of(context).home}';
+          break;
+        case '/sites':
+          item.title = '${S.of(context).sites}';
+          break;
+        case '/sets':
+          item.title = '${S.of(context).sets}';
           break;
         case '/alarms':
           item.title = '${S.of(context).alarms}';

@@ -90,6 +90,26 @@ class S {
     );
   }
 
+  /// `Sites`
+  String get sites {
+    return Intl.message(
+      'Sites',
+      name: 'sites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sets`
+  String get sets {
+    return Intl.message(
+      'Sets',
+      name: 'sets',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More`
   String get more {
     return Intl.message(
@@ -1307,6 +1327,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ko'),
       Locale.fromSubtags(languageCode: 'zh'),
     ];
   }
