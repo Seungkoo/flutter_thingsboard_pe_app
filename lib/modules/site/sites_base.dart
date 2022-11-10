@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'package:thingsboard_app/core/context/tb_context.dart';
+import 'package:thingsboard_app/core/context/tb_context_widget.dart';
+import 'package:thingsboard_app/utils/utils.dart';
 
 mixin SitesBase on EntitiesBase<Asset, PageLink> {
   @override
@@ -13,10 +16,31 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
   Future<PageData<Asset>> fetchEntities(PageLink pageLink) {
     return tbClient.getAssetService().getUserAssets(pageLink, type: 'Site');
   }
-
+/*
   @override
   void onEntityTap(Asset site) {
     navigateTo('/site/${site.id!.id}');
+  }*/
+  @override
+  void onEntityTap(Asset site) async {
+    HomeDashboardInfo? homeDashBoard = tbContext.homeDashboard;
+    if (homeDashBoard!.dashboardId != null) {
+      if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
+          hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
+        DashboardId? dashboardId = homeDashBoard.dashboardId;
+        var state = Utils.createDashboardEntityState( site.id!,entityName: site.name, entityLabel: site.label);
+        navigateToDashboard(dashboardId!.id!,
+            dashboardTitle: site.name, state: state);
+      } else {
+        showErrorNotification(
+            '이 작업에 대한 권한이 없습니다!');
+      }
+    } else {
+      if (tbClient.isTenantAdmin()) {
+        showWarnNotification(
+            '홈 대시보드에서 Sets State가 구성되어 있지 않습니다!');
+      }
+    }
   }
 
   @override
