@@ -28,7 +28,7 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
       if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
           hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
         DashboardId? dashboardId = homeDashBoard.dashboardId;
-        var state = Utils.createDashboardEntityState( site.id!,entityName: site.name, entityLabel: site.label);
+        var state = Utils.createDashboardEntityStateWithState( site.id!, entityName: site.name, entityLabel: site.label, stateId: "site");
         navigateToDashboard(dashboardId!.id!,
             dashboardTitle: site.name, state: state);
       } else {

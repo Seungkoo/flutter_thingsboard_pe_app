@@ -29,7 +29,7 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
       if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
           hasGenericPermission(Resource.WIDGET_TYPE, Operation.READ)) {
         DashboardId? dashboardId = homeDashBoard.dashboardId;
-        var state = Utils.createDashboardEntityState( set.id!,entityName: set.name, entityLabel: set.label);
+        var state = Utils.createDashboardEntityStateWithState( set.id!,entityName: set.name, entityLabel: set.label, stateId: "Set");
         navigateToDashboard(dashboardId!.id!,
             dashboardTitle: set.name, state: state);
       } else {
