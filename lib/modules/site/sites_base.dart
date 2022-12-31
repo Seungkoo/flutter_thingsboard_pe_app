@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
-import 'package:thingsboard_app/core/context/tb_context.dart';
-import 'package:thingsboard_app/core/context/tb_context_widget.dart';
-import 'package:thingsboard_app/utils/utils.dart';
 
-mixin SitesBase on EntitiesBase<Asset, PageLink> {
+import 'package:thingsboard_app/utils/utils.dart';
+import "site_model.dart";
+
+mixin SitesBase on EntitiesBase<Site, PageLink> {
   @override
   String get title => '현장 목록';
 
@@ -13,16 +13,45 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
   String get noItemsFoundText => '등록된 현장이 없습니다.';
 
   @override
-  Future<PageData<Asset>> fetchEntities(PageLink pageLink) {
-    return tbClient.getAssetService().getUserAssets(pageLink, type: 'Site');
+  Future<PageData<Site>> fetchEntities(PageLink pageLink) async {
+
+    PageData<Asset> assetPageData = await tbClient.getAssetService().getUserAssets(pageLink, type: 'Site');
+    PageData<Site> sitePageData = PageData<Site>.fromJson(assetPageData.toJson(), (json) => Site.fromJson(json));
+    List<String> attributeKeys = ["const_period","site_address"];
+    List<String> telemetryKeys = ["weather","site_temperature","img_src"];
+    for (var e in sitePageData.data) {
+      List<AttributeKvEntry> attributeKvList = await tbClient.getAttributeService().getAttributeKvEntries(e.getId() as EntityId, attributeKeys);
+      for (var element in attributeKvList) {
+        if (element.getKey() == "const_period"){
+          e.const_period = element.getValue();}
+        else if (element.getKey() == "site_address"){
+          e.site_address = element.getValue();}
+      }
+      List<TsKvEntry> tsKvList = await tbClient.getAttributeService().getLatestTimeseries(e.getId() as EntityId, telemetryKeys);
+      for (var element in tsKvList) {
+        switch (element.getKey()){
+          case "weather":
+            e.weather = element.getValue();
+            break;
+          case "site_temperature":
+            e.site_temperature = element.getDoubleValue();
+            break;
+          case "img_src":
+            e.img_src = element.getValue();
+        }
+      }
+    }
+    return sitePageData;
   }
+
+
 /*
   @override
   void onEntityTap(Asset site) {
     navigateTo('/site/${site.id!.id}');
   }*/
   @override
-  void onEntityTap(Asset site) async {
+  void onEntityTap(Site site) async {
     HomeDashboardInfo? homeDashBoard = tbContext.homeDashboard;
     if (homeDashBoard!.dashboardId != null) {
       if (hasGenericPermission(Resource.WIDGETS_BUNDLE, Operation.READ) &&
@@ -44,21 +73,21 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
   }
 
   @override
-  Widget buildEntityListCard(BuildContext context, Asset site) {
+  Widget buildEntityListCard(BuildContext context, Site site) {
     return _buildCard(context, site);
   }
 
   @override
-  Widget buildEntityListWidgetCard(BuildContext context, Asset site) {
+  Widget buildEntityListWidgetCard(BuildContext context, Site site) {
     return _buildListWidgetCard(context, site);
   }
 
   @override
-  Widget buildEntityGridCard(BuildContext context, Asset site) {
+  Widget buildEntityGridCard(BuildContext context, Site site) {
     return Text(site.name);
   }
 
-  Widget _buildCard(context, Asset site) {
+  Widget _buildCard(context, Site site) {
     return Row(mainAxisSize: MainAxisSize.max, children: [
       Flexible(
           fit: FlexFit.tight,
@@ -80,24 +109,37 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
                               FittedBox(
                                   fit: BoxFit.fitWidth,
                                   alignment: Alignment.centerLeft,
-                                  child: Text('${site.name}',
+                                  child: Text(site.name,
                                       style: TextStyle(
                                           color: Color(0xFF282828),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           height: 20 / 14))),
                               Text(
-                                  entityDateFormat.format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          site.createdTime!)),
+                                //entityDateFormat.format(
+                                //    DateTime.fromMillisecondsSinceEpoch(
+                                //        site.createdTime!)),
+                                  site.weather!,
                                   style: TextStyle(
                                       color: Color(0xFFAFAFAF),
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
-                                      height: 16 / 12))
+                                      height: 16 / 12)),
+
                             ]),
                         SizedBox(height: 4),
-                        Text('${site.type}',
+                        Text(
+                          //entityDateFormat.format(
+                          //    DateTime.fromMillisecondsSinceEpoch(
+                          //        site.createdTime!)),
+                            site.const_period!,
+                            style: TextStyle(
+                                color: Color(0xFFAFAFAF),
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                height: 16 / 12)),
+                        SizedBox(height: 4),
+                        Text(site.site_address!,
                             style: TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
@@ -114,7 +156,7 @@ mixin SitesBase on EntitiesBase<Asset, PageLink> {
     ]);
   }
 
-  Widget _buildListWidgetCard(BuildContext context, Asset site) {
+  Widget _buildListWidgetCard(BuildContext context, Site site) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Flexible(
           fit: FlexFit.loose,
