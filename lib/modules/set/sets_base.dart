@@ -4,8 +4,9 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/utils.dart';
+import "sets_model.dart";
 
-mixin SetsBase on EntitiesBase<Asset, PageLink> {
+mixin SetsBase on EntitiesBase<Set, PageLink> {
   @override
   String get title => '열풍기세트 목록';
 
@@ -13,8 +14,33 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
   String get noItemsFoundText => '등록된 세트가 없습니다.';
 
   @override
-  Future<PageData<Asset>> fetchEntities(PageLink pageLink) {
-    return tbClient.getAssetService().getUserAssets(pageLink, type: 'Set');
+  Future<PageData<Set>> fetchEntities(PageLink pageLink) async {
+    PageData<Asset> assetPageData = await tbClient.getAssetService().getUserAssets(pageLink, type: 'Set');
+    PageData<Set> setPageData = PageData<Set>.fromJson(assetPageData.toJson(), (json) => Set.fromJson(json));
+    List<String> attributeKeys = ["location"];
+    List<String> telemetryKeys = [];
+    for (var e in setPageData.data) {
+
+      List<EntityRelationInfo> parentSites = await tbClient.getEntityRelationService().findInfoByTo(e.getId() as EntityId);
+      for (var element in parentSites) {
+        e.fromSite = element.fromName;
+      }
+      List<AttributeKvEntry> attributeKvList = await tbClient.getAttributeService().getAttributeKvEntries(e.getId() as EntityId, attributeKeys);
+      for (var element in attributeKvList) {
+        if (element.getKey() == "location"){
+          e.location = element.getValue();}
+      }
+      //List<String> tsKeys = await tbClient.getAttributeService().getTimeseriesKeys(e.getId() as EntityId);
+
+      List<TsKvEntry> tsKvList = await tbClient.getAttributeService().getLatestTimeseries(e.getId() as EntityId, telemetryKeys);
+      for (var element in tsKvList) {
+        if (element.getKey() == "avgTemperature") {
+          e.avgTemperature = element.getDoubleValue();
+          break;
+        }
+      }
+    }
+    return setPageData;
   }
 /*
   @override
@@ -45,21 +71,21 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
   }
 
   @override
-  Widget buildEntityListCard(BuildContext context, Asset set) {
+  Widget buildEntityListCard(BuildContext context, Set set) {
     return _buildCard(context, set);
   }
 
   @override
-  Widget buildEntityListWidgetCard(BuildContext context, Asset set) {
+  Widget buildEntityListWidgetCard(BuildContext context, Set set) {
     return _buildListWidgetCard(context, set);
   }
 
   @override
-  Widget buildEntityGridCard(BuildContext context, Asset set) {
+  Widget buildEntityGridCard(BuildContext context, Set set) {
     return Text(set.name);
   }
 
-  Widget _buildCard(context, Asset set) {
+  Widget _buildCard(context, Set set) {
     return Row(mainAxisSize: MainAxisSize.max, children: [
       Flexible(
           fit: FlexFit.tight,
@@ -87,25 +113,36 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           height: 20 / 14))),
-                              Text(
-                                  entityDateFormat.format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          set.createdTime!)),
-                                  style: TextStyle(
-                                      color: Color(0xFFAFAFAF),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      height: 16 / 12))
+
                             ]),
                         SizedBox(height: 4),
-                        Text('${set.type}',
-                            style: TextStyle(
+                        Row(mainAxisSize: MainAxisSize.min,
+                            children: [
+                            Text(set.location??"배치안됨",
+                              style: TextStyle(
+                                  color: Color(0xFF282828),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1.33)
+                            ),
+                            SizedBox(width: 4),
+                            Text(set.fromSite??"현장미투입",
+                                style: TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
-                                height: 1.33))
-                      ],
-                    )),
+                                height: 1.33)
+                            )
+                        ]),
+                    ])),
+                SizedBox(width: 16),
+                Text(
+                    (set.avgTemperature == null) ? "-": set.avgTemperature!.toStringAsFixed(1)+" ℃",
+                    style: TextStyle(
+                        color: Color(0xFF282828),
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        height: 16 / 12)),
                 SizedBox(width: 16),
                 Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
                 SizedBox(width: 16)
@@ -115,7 +152,7 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
     ]);
   }
 
-  Widget _buildListWidgetCard(BuildContext context, Asset set) {
+  Widget _buildListWidgetCard(BuildContext context, Set set) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Flexible(
           fit: FlexFit.loose,
@@ -136,12 +173,20 @@ mixin SetsBase on EntitiesBase<Asset, PageLink> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     height: 1.7))),
-                        Text('${set.type}',
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text('${set.fromSite} ',
+                              style: TextStyle(
+                                  color: Color(0xFFAFAFAF),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1.33)),
+                          Text('${set.location}',
                             style: TextStyle(
                                 color: Color(0xFFAFAFAF),
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
-                                height: 1.33))
+                                height: 1.33)),
+                        ],)
                       ],
                     ))
               ])))

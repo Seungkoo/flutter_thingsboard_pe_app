@@ -17,18 +17,28 @@ const Map<AlarmSeverity, Color> alarmSeverityColors = {
 };
 
 const Map<AlarmSeverity, String> alarmSeverityTranslations = {
-  AlarmSeverity.CRITICAL: 'Critical',
+  AlarmSeverity.CRITICAL: '심각함',
+  AlarmSeverity.MAJOR: '중요함',
+  AlarmSeverity.MINOR: '사소함',
+  AlarmSeverity.WARNING: '경고',
+  AlarmSeverity.INDETERMINATE: '보통',
+  /*AlarmSeverity.CRITICAL: 'Critical',
   AlarmSeverity.MAJOR: 'Major',
   AlarmSeverity.MINOR: 'Minor',
   AlarmSeverity.WARNING: 'Warning',
-  AlarmSeverity.INDETERMINATE: 'Indeterminate',
+  AlarmSeverity.INDETERMINATE: 'Indeterminate',*/
 };
 
 const Map<AlarmStatus, String> alarmStatusTranslations = {
-  AlarmStatus.ACTIVE_ACK: 'Active Acknowledged',
+  /*AlarmStatus.ACTIVE_ACK: 'Active Acknowledged',
   AlarmStatus.ACTIVE_UNACK: 'Active Unacknowledged',
   AlarmStatus.CLEARED_ACK: 'Cleared Acknowledged',
   AlarmStatus.CLEARED_UNACK: 'Cleared Unacknowledged',
+   */
+  AlarmStatus.ACTIVE_ACK: '활성-인지함',
+  AlarmStatus.ACTIVE_UNACK: '활성-인지하지 않음',
+  AlarmStatus.CLEARED_ACK: '해제됨-인지함',
+  AlarmStatus.CLEARED_UNACK: '해제됨-인지하지 않음',
 };
 
 mixin AlarmsBase on EntitiesBase<AlarmInfo, AlarmQuery> {

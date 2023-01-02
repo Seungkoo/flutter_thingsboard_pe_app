@@ -23,7 +23,11 @@ abstract class EntityQueryApi {
   ];
 
   static final defaultDeviceAttributes = <EntityKey>[
-    EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active')
+    EntityKey(type: EntityKeyType.ATTRIBUTE, key: 'active'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'temperature'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'humidity'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'battery'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'LinkQuality'),
   ];
 
   static Future<int> countDevices(ThingsboardClient tbClient,

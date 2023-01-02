@@ -12,6 +12,7 @@ import 'package:thingsboard_app/utils/services/device_profile_cache.dart';
 import 'package:thingsboard_app/utils/services/entity_query_api.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
+import 'seq_device_profile.dart';
 
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   @override
@@ -182,6 +183,8 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                     semanticsLabel: 'Device');
                 imageFit = BoxFit.cover;
               }
+              // Device Profile Type 별 Build 루틴 삽입 장소
+              // profile.name => device profile name , profile.id.id = uuid of device profile
               return Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,16 +247,23 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                                   20 / 14)))),
                                               SizedBox(width: 12),
                                               Text(
-                                                  entityDateFormat.format(DateTime
-                                                      .fromMillisecondsSinceEpoch(
-                                                          widget.device
-                                                              .createdTime!)),
+                                                  '${widget.device.timeSeries('temperature')!} ℃',
                                                   style: TextStyle(
                                                       color: Color(0xFFAFAFAF),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.normal,
+                                                      height: 16 / 12)),
+                                              SizedBox(width: 12),
+                                              Text(
+                                                  '${widget.device.timeSeries('humidity')!} %',
+                                                  style: TextStyle(
+                                                      color: Color(0xFFAFAFAF),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.normal,
                                                       height: 16 / 12))
+
                                             ]),
                                         SizedBox(height: 4),
                                         Row(
