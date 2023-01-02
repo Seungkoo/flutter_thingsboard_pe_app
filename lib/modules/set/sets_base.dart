@@ -137,10 +137,10 @@ mixin SetsBase on EntitiesBase<Set, PageLink> {
                     ])),
                 SizedBox(width: 16),
                 Text(
-                    (set.avgTemperature == null) ? "-": set.avgTemperature!.toStringAsFixed(1)+" ℃",
+                    (set.avgTemperature == null) ? "-": set.avgTemperature!.toStringAsFixed(1)+" \u00b0C",
                     style: TextStyle(
                         color: Color(0xFF282828),
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                         height: 16 / 12)),
                 SizedBox(width: 16),

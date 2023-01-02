@@ -247,22 +247,14 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                                   20 / 14)))),
                                               SizedBox(width: 12),
                                               Text(
-                                                  '${widget.device.timeSeries('temperature')!} ℃',
+                                                  '${widget.device.timeSeries('temperature')!} \u00b0C',
                                                   style: TextStyle(
-                                                      color: Color(0xFFAFAFAF),
-                                                      fontSize: 12,
+                                                      color: Color(0xFF282828),
+                                                      fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 16 / 12)),
-                                              SizedBox(width: 12),
-                                              Text(
-                                                  '${widget.device.timeSeries('humidity')!} %',
-                                                  style: TextStyle(
-                                                      color: Color(0xFFAFAFAF),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.normal,
-                                                      height: 16 / 12))
+
 
                                             ]),
                                         SizedBox(height: 4),
@@ -279,23 +271,15 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     height: 16 / 12)),
+
                                             Text(
-                                                widget.device.attribute(
-                                                            'active') ==
-                                                        'true'
-                                                    ? '${S.of(context).active}'
-                                                    : '${S.of(context).inactive}',
+                                                '${widget.device.timeSeries('humidity')!} %',
                                                 style: TextStyle(
-                                                  color: widget.device
-                                                              .attribute(
-                                                                  'active') ==
-                                                          'true'
-                                                      ? Color(0xFF008A00)
-                                                      : Color(0xFFAFAFAF),
-                                                  fontSize: 12,
-                                                  height: 16 / 12,
-                                                  fontWeight: FontWeight.normal,
-                                                ))
+                                                    color: Color(0xFF282828),
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                    FontWeight.normal,
+                                                    height: 16 / 12))
                                           ],
                                         )
                                       ])),

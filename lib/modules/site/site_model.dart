@@ -5,7 +5,7 @@ class Site extends Asset{
   String? const_period;
   String? weather;
   double? site_temperature;
-  num?    img_src;
+  int?    img_src;
 
   Site.fromJson(Map<String, dynamic> json)
       : site_address = json['site_address'],

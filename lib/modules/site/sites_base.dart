@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thingsboard_app/core/entity/entities_base.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
-
 import 'package:thingsboard_app/utils/utils.dart';
+import 'package:thingsboard_app/constants/seq_assets_path.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import "site_model.dart";
 
 mixin SitesBase on EntitiesBase<Site, PageLink> {
@@ -88,6 +89,23 @@ mixin SitesBase on EntitiesBase<Site, PageLink> {
   }
 
   Widget _buildCard(context, Site site) {
+    //var hasImage = entity.image != null;
+    Widget image;
+    BoxFit imageFit;
+    double padding;
+
+    imageFit = BoxFit.scaleDown;
+    if (site.img_src == null || site.img_src! > 7) {
+      site.img_src = 8;
+    }
+    image = SvgPicture.asset(SeqBlowerImage.weather[site.img_src!],
+          //color: Theme.of(context).cardColor,
+          //colorBlendMode: BlendMode.dst,
+          semanticsLabel: site.weather);
+
+    padding = 0;
+
+
     return Row(mainAxisSize: MainAxisSize.max, children: [
       Flexible(
           fit: FlexFit.tight,
@@ -114,18 +132,7 @@ mixin SitesBase on EntitiesBase<Site, PageLink> {
                                           color: Color(0xFF282828),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          height: 20 / 14))),
-                              Text(
-                                //entityDateFormat.format(
-                                //    DateTime.fromMillisecondsSinceEpoch(
-                                //        site.createdTime!)),
-                                  site.weather!,
-                                  style: TextStyle(
-                                      color: Color(0xFFAFAFAF),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      height: 16 / 12)),
-
+                                          height: 20 / 14)))
                             ]),
                         SizedBox(height: 4),
                         Text(
@@ -147,6 +154,20 @@ mixin SitesBase on EntitiesBase<Site, PageLink> {
                                 height: 1.33))
                       ],
                     )),
+                SizedBox(width: 4),
+                FittedBox(
+                    clipBehavior: Clip.hardEdge,
+                    fit: imageFit,
+                    child: image),
+
+                Text(
+                    (site.site_temperature == null) ? "-" : site.site_temperature!.toStringAsFixed(1)+" \u00b0C",
+                    style: TextStyle(
+                        color: Color(0xFF282828),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        height: 16 / 12)),
+
                 SizedBox(width: 16),
                 Icon(Icons.chevron_right, color: Color(0xFFACACAC)),
                 SizedBox(width: 16)

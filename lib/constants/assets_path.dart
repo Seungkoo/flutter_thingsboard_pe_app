@@ -17,3 +17,4 @@ abstract class ThingsboardImage {
     'apple-logo': 'assets/images/apple-logo.svg'
   };
 }
+
