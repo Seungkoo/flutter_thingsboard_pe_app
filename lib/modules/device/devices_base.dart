@@ -245,16 +245,6 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                                       .w500,
                                                               height:
                                                                   20 / 14)))),
-                                              SizedBox(width: 12),
-                                              Text(
-                                                  '${widget.device.timeSeries('temperature')!} \u00b0C',
-                                                  style: TextStyle(
-                                                      color: Color(0xFF282828),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 16 / 12)),
-
 
                                             ]),
                                         SizedBox(height: 4),
@@ -272,17 +262,40 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                                         FontWeight.normal,
                                                     height: 16 / 12)),
 
-                                            Text(
-                                                '${widget.device.timeSeries('humidity')!} %',
-                                                style: TextStyle(
-                                                    color: Color(0xFF282828),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                    FontWeight.normal,
-                                                    height: 16 / 12))
                                           ],
                                         )
                                       ])),
+                                  SizedBox(width: 12),
+                                  Icon(Icons.thermostat,
+                                      color: Colors.orange),
+                                  Text(
+                                      (widget.device.timeSeries('temperature') == null) ? "-":'${widget.device.timeSeries('temperature')!} \u00b0C',
+                                      style: TextStyle(
+                                          color: Color(0xFF282828),
+                                          fontSize: 16,
+                                          fontWeight:
+                                          FontWeight.normal,
+                                          height: 16 / 12)),
+                                  if (widget.device.field('type') == 'Temp-Humi Sensor')
+                                    SizedBox(width: 12),
+                                  if (widget.device.field('type') == 'Temp-Humi Sensor')
+                                    Icon(Icons.water_drop,
+                                    color: Colors.blue),
+                                    Text(
+                                        (widget.device.timeSeries(
+                                            'humidity') == null)
+                                            ? "-"
+                                            : '${widget.device
+                                            .timeSeries(
+                                            'humidity')!} %',
+                                        style: TextStyle(
+                                            color: Color(
+                                                0xFF282828),
+                                            fontSize: 16,
+                                            fontWeight:
+                                            FontWeight.normal,
+                                            height: 16 / 12)),
+
                                   SizedBox(width: 16),
                                   if (hasDashboard)
                                     Icon(Icons.chevron_right,
