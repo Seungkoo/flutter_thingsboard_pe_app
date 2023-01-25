@@ -34,8 +34,8 @@ class TbProgressIndicator extends ProgressIndicator {
 class _TbProgressIndicatorState extends State<TbProgressIndicator>
     with TickerProviderStateMixin {
   AnimationController? _controller;
-  CurvedAnimation? _rotation;
-
+  //CurvedAnimation? _rotation;
+  late Animation<double> _animation;
   @override
   void initState() {
     super.initState();
@@ -45,9 +45,10 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
           vsync: this,
           upperBound: 1,
           animationBehavior: AnimationBehavior.preserve);
-      _rotation =
-          CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
-      _controller!.repeat();
+     // _rotation =
+     //     CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
+      _animation = CurvedAnimation( parent: _controller!, curve: Curves.easeInOut);
+      _controller!.repeat(reverse: true);
     }
   }
 
@@ -66,11 +67,12 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
             vsync: this,
             upperBound: 1,
             animationBehavior: AnimationBehavior.preserve);
-        _rotation =
-            CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
-        _controller!.repeat();
+        //_rotation =
+        //    CurvedAnimation(parent: _controller!, curve: Curves.easeInOut);
+        _animation = CurvedAnimation( parent: _controller!, curve: Curves.easeIn);
+        _controller!.repeat(reverse: true);
       } else if (!_controller!.isAnimating) {
-        _controller!.repeat();
+        _controller!.repeat(reverse: true);
       }
     }
   }
@@ -93,15 +95,15 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
             color: widget._getValueColor(context),
           ));
     } else {
-      return Stack(
+      /*return Stack(
         children: [
-          SvgPicture.asset(ThingsboardImage.thingsboardCenter,
+          SvgPicture.asset(ThingsboardImage.samsungSingleLogo,
               height: widget.size,
               width: widget.size,
               color: widget._getValueColor(context)),
           AnimatedBuilder(
             animation: _rotation!,
-            child: SvgPicture.asset(ThingsboardImage.thingsboardOuter,
+            child: SvgPicture.asset(ThingsboardImage.samsungSingleLogo,
                 height: widget.size,
                 width: widget.size,
                 color: widget._getValueColor(context)),
@@ -111,6 +113,17 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
             },
           )
         ],
+      );*/
+      return Container(
+          color: Colors.white,
+          child: FadeTransition(
+            opacity: _animation,
+            child:
+                 SvgPicture.asset( ThingsboardImage.samsungSingleLogo,
+                    height: widget.size,
+                    width: widget.size,
+                   ))
+
       );
     }
   }

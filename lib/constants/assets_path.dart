@@ -4,6 +4,7 @@ abstract class ThingsboardImage {
   static final thingsboard = 'assets/images/thingsboard.svg';
   static final thingsboardOuter = 'assets/images/thingsboard_outer.svg';
   static final thingsboardCenter = 'assets/images/thingsboard_center.svg';
+  static final samsungSingleLogo = 'assets/images/s_logo.svg';
   static final dashboardPlaceholder = 'assets/images/dashboard-placeholder.svg';
   static final deviceProfilePlaceholder =
       'assets/images/device-profile-placeholder.svg';
