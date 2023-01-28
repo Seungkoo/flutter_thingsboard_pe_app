@@ -266,20 +266,20 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                         )
                                       ])),
                                   SizedBox(width: 12),
-                                  Icon(Icons.thermostat,
+                                  Icon(Icons.thermostat, size: 12,
                                       color: Colors.orange),
                                   Text(
                                       (widget.device.timeSeries('temperature') == null) ? "-":'${widget.device.timeSeries('temperature')!} \u00b0C',
                                       style: TextStyle(
                                           color: Color(0xFF282828),
-                                          fontSize: 16,
+                                          fontSize: 12,
                                           fontWeight:
                                           FontWeight.normal,
                                           height: 16 / 12)),
                                   if (widget.device.field('type') == 'Temp-Humi Sensor')
                                     SizedBox(width: 12),
                                   if (widget.device.field('type') == 'Temp-Humi Sensor')
-                                    Icon(Icons.water_drop,
+                                    Icon(Icons.water_drop, size: 12,
                                     color: Colors.blue),
                                     Text(
                                         (widget.device.timeSeries(
@@ -291,7 +291,7 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                         style: TextStyle(
                                             color: Color(
                                                 0xFF282828),
-                                            fontSize: 16,
+                                            fontSize: 12,
                                             fontWeight:
                                             FontWeight.normal,
                                             height: 16 / 12)),

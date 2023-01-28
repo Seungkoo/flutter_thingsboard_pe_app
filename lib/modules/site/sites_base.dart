@@ -94,13 +94,15 @@ mixin SitesBase on EntitiesBase<Site, PageLink> {
     BoxFit imageFit;
     double padding;
 
-    imageFit = BoxFit.scaleDown;
+    imageFit = BoxFit.contain;
     if (site.img_src == null || site.img_src! > 7) {
       site.img_src = 8;
     }
     image = SvgPicture.asset(SeqBlowerImage.weather[site.img_src!],
           //color: Theme.of(context).cardColor,
           //colorBlendMode: BlendMode.dst,
+          width: 64,
+          height: 64,
           semanticsLabel: site.weather);
 
     padding = 0;
