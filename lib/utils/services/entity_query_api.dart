@@ -28,6 +28,9 @@ abstract class EntityQueryApi {
     EntityKey(type: EntityKeyType.TIME_SERIES, key: 'humidity'),
     EntityKey(type: EntityKeyType.TIME_SERIES, key: 'battery'),
     EntityKey(type: EntityKeyType.TIME_SERIES, key: 'LinkQuality'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'oil level'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'concentration'),
+    EntityKey(type: EntityKeyType.TIME_SERIES, key: 'state'),
   ];
 
   static Future<int> countDevices(ThingsboardClient tbClient,

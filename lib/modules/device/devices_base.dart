@@ -266,41 +266,15 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
                                         )
                                       ])),
                                   SizedBox(width: 12),
-                                  Icon(Icons.thermostat, size: 12,
-                                      color: Colors.orange),
-                                  Text(
-                                      (widget.device.timeSeries('temperature') == null) ? "-":'${widget.device.timeSeries('temperature')!} \u00b0C',
-                                      style: TextStyle(
-                                          color: Color(0xFF282828),
-                                          fontSize: 12,
-                                          fontWeight:
-                                          FontWeight.normal,
-                                          height: 16 / 12)),
-                                  if (widget.device.field('type') == 'Temp-Humi Sensor')
-                                    SizedBox(width: 12),
-                                  if (widget.device.field('type') == 'Temp-Humi Sensor')
-                                    Icon(Icons.water_drop, size: 12,
-                                    color: Colors.blue),
-                                    Text(
-                                        (widget.device.timeSeries(
-                                            'humidity') == null)
-                                            ? "-"
-                                            : '${widget.device
-                                            .timeSeries(
-                                            'humidity')!} %',
-                                        style: TextStyle(
-                                            color: Color(
-                                                0xFF282828),
-                                            fontSize: 12,
-                                            fontWeight:
-                                            FontWeight.normal,
-                                            height: 16 / 12)),
 
-                                  SizedBox(width: 16),
+                                  buildDeviceTypeRow(),
+
+                                  SizedBox(width: 12),
                                   if (hasDashboard)
                                     Icon(Icons.chevron_right,
                                         color: Color(0xFFACACAC)),
-                                  if (hasDashboard) SizedBox(width: 16),
+                                  if (hasDashboard)
+                                    SizedBox(width: 12),
                                 ]),
                             SizedBox(height: 12)
                           ],
@@ -407,4 +381,132 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
               )))
     ]);
   }
+
+  Widget buildDeviceTypeRow() {
+    switch (widget.device.field('type')!) {
+      case 'Temp-Humi Sensor':
+        return buildTempHumiSensorRow();
+      case 'Heater' :
+        return buildHeaterRow();
+      case 'CO Concentration Sensor' :
+        return buildCOSensorRow();
+      default:
+        return buildGeneralTypeRow();
+    }
+  }
+
+  Widget buildGeneralTypeRow()
+  {
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Text(
+              "",
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.normal,
+                  height: 16 / 12)),
+          SizedBox(width: 12)
+        ]
+    );
+
+
+  }
+  Widget buildTempHumiSensorRow()
+  {
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+            if(widget.device.timeSeries('temperature') != "")
+              const Icon(Icons.thermostat, size: 12, color: Colors.orange),
+            Text(
+                (widget.device.timeSeries('temperature') == "") ? "":'${double.parse(widget.device.timeSeries('temperature')!).toStringAsFixed(1)} \u00b0C',
+                style: TextStyle(
+                    color: Color(0xFF282828),
+                    fontSize: 14,
+                    fontWeight:
+                    FontWeight.normal,
+                    height: 16 / 12)),
+              const SizedBox(width: 12),
+            if (widget.device.timeSeries('humidity') != "")
+              const Icon(Icons.water_drop, size: 12,color: Colors.blue),
+            Text(
+              (widget.device.timeSeries('humidity') == "")? "": '${double.parse(widget.device.timeSeries('humidity')!).toStringAsFixed(1)} %',
+              style: TextStyle(
+              color: Color(0xFF282828),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              height: 16 / 12)),
+        ]
+    );
+  }
+
+  Widget buildHeaterRow()
+  {
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if(widget.device.timeSeries('temperature') != "")
+            const Icon(Icons.thermostat, size: 12, color: Colors.orange),
+          Text(
+              (widget.device.timeSeries('temperature') == "") ? "":'${double.parse(widget.device.timeSeries('temperature')!).toStringAsFixed(1)} \u00b0C',
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.normal,
+                  height: 16 / 12)),
+          SizedBox(width: 12),
+          if (widget.device.timeSeries('oil level') != "")
+            const Icon(Icons.oil_barrel, size: 12,color: Colors.blue),
+          Text(
+              (widget.device.timeSeries('oil level') == "")? "": '${double.parse(widget.device.timeSeries('oil level')!).toStringAsFixed(1)} %',
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  height: 16 / 12)),
+        ]
+    );
+  }
+
+  Widget buildCOSensorRow()
+  {
+
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if(widget.device.timeSeries('state') != "")
+            Icon(Icons.circle, size: 12, color: int.parse(widget.device.timeSeries('state')!) > 0 ? Colors.green : Colors.red ),
+          Text(
+              (widget.device.timeSeries('state') == "") ? "" : int.parse(widget.device.timeSeries('state')!) > 0 ? '정상' : '경고',
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.normal,
+                  height: 16 / 12)),
+          SizedBox(width: 12),
+          if(widget.device.timeSeries('concentration') != "")
+            const Icon(Icons.air, size: 12, color: Colors.blue),
+          Text(
+              (widget.device.timeSeries('concentration') == "") ? "":'${double.parse(widget.device.timeSeries('concentration')!).toStringAsFixed(1)} ppm',
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.normal,
+                  height: 16 / 12)),
+          SizedBox(width: 12)
+        ]
+    );
+  }
+
+
 }
