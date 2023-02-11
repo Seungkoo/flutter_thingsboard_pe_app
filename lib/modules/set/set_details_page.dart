@@ -9,8 +9,8 @@ class SetDetailsPage extends EntityDetailsPage<Asset> {
   SetDetailsPage(TbContext tbContext, String setId)
       : super(tbContext,
             entityId: setId,
-            defaultTitle: '자원',
-            subTitle: '자원 상세정보');
+            defaultTitle: '세트',
+            subTitle: '세트 상세정보');
 
   @override
   Future<Asset?> fetchEntity(String setId) {
