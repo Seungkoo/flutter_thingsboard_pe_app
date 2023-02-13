@@ -17,7 +17,7 @@ mixin DeviceProfilesBase on EntitiesBase<DeviceProfileInfo, PageLink> {
   final RefreshDeviceCounts refreshDeviceCounts = RefreshDeviceCounts();
 
   @override
-  String get title => '기기 목록';
+  String get title => '모든 기기';
 
   @override
   String get noItemsFoundText => '등록된 기기가 없습니다.';

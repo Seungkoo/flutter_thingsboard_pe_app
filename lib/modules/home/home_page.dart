@@ -60,10 +60,11 @@ class _HomePageState extends TbContextState<HomePage>
       body: Builder(builder: (context) {
         if (dashboardState) {
           //return _buildDefaultHome(context);
-          //SEQ_Monitor - 1 line
+         //SEQ_Monitor - 1 line
           return _buildDashboardHome(context, homeDashboard!);
         } else {
-          return _buildDefaultHome(context);
+          //return _buildDefaultHome(context);
+          return _buildSysAdminHome(context);
         }
       }),
     );

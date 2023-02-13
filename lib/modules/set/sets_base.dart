@@ -8,7 +8,7 @@ import "sets_model.dart";
 
 mixin SetsBase on EntitiesBase<Set, PageLink> {
   @override
-  String get title => '열풍기세트 목록';
+  String get title => '모든 열풍기세트';
 
   @override
   String get noItemsFoundText => '등록된 세트가 없습니다.';

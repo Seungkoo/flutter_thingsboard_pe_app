@@ -8,7 +8,7 @@ import "site_model.dart";
 
 mixin SitesBase on EntitiesBase<Site, PageLink> {
   @override
-  String get title => '현장 목록';
+  String get title => '모든 현장';
 
   @override
   String get noItemsFoundText => '등록된 현장이 없습니다.';

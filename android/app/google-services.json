@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "453102497273",
+    "project_id": "seq-monitor",
+    "storage_bucket": "seq-monitor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453102497273:android:4590bcccd4424d2e396128",
+        "android_client_info": {
+          "package_name": "net.seqsys.tb.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453102497273-o5q8mqoonfjc3cik529usq8mvpc5ktot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgpQlsLfBmhyzFwRC53q6n3z5EdLfWV1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453102497273-o5q8mqoonfjc3cik529usq8mvpc5ktot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
