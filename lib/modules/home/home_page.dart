@@ -40,6 +40,9 @@ class _HomePageState extends TbContextState<HomePage>
     return Scaffold(
       appBar: TbAppBar(
         tbContext,
+        leading: BackButton(onPressed: () {
+          maybePop();
+        }),
         elevation: dashboardState ? 0 : 8,
         title: Center(
             child: Container(
