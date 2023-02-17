@@ -401,7 +401,7 @@ class TbContext {
           if (defaultDashboardId != null) {
             bool fullscreen = _userForceFullscreen();
             if (!fullscreen) {
-              await navigateToDashboard(defaultDashboardId, animate: false);
+              //await navigateToDashboard(defaultDashboardId, animate: false);
               navigateTo('/home',
                   replace: true,
                   closeDashboard: false,
@@ -649,6 +649,8 @@ mixin HasTbContext {
 
   Future<bool> maybePop<T extends Object?>([T? result]) =>
       _tbContext.maybePop<T>(result);
+
+
 
   Future<void> navigateToDashboard(String dashboardId,
           {String? dashboardTitle,

@@ -4,6 +4,7 @@ import 'package:thingsboard_app/core/context/tb_context_widget.dart';
 import 'package:thingsboard_app/modules/dashboard/dashboard.dart'
     as dashboardUi;
 import 'package:thingsboard_app/modules/dashboard/dashboards_grid.dart';
+//import 'package:thingsboard_app/modules/dashboard/dashboards_list_widget.dart';
 import 'package:thingsboard_app/modules/tenant/tenants_widget.dart';
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 import 'package:thingsboard_pe_client/thingsboard_client.dart';
@@ -41,15 +42,17 @@ class _HomePageState extends TbContextState<HomePage>
       appBar: TbAppBar(
         tbContext,
         leading: BackButton(onPressed: () {
-          maybePop();
-        }),
+          maybePop(); }) ,
+
         elevation: dashboardState ? 0 : 8,
-        title: Center(
+        title: Text('나의 현장'),
+        /*Center(
             child: Container(
                 height: kToolbarHeight - 8,
                 child: tbContext.wlService.userLogoImage != null
                     ? tbContext.wlService.userLogoImage!
                     : SizedBox())),
+        */
         actions: [
           if (tbClient.isSystemAdmin())
             IconButton(
@@ -83,6 +86,7 @@ class _HomePageState extends TbContextState<HomePage>
       return _buildSysAdminHome(context);
     } else {
       return DashboardsGridWidget(tbContext);
+
     }
   }
 

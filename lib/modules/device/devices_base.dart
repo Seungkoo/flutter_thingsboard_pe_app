@@ -390,6 +390,8 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
         return buildHeaterRow();
       case 'CO Concentration Sensor' :
         return buildCOSensorRow();
+      case 'Smoke Sensor':
+        return buildSmokeSensorRow();
       default:
         return buildGeneralTypeRow();
     }
@@ -507,6 +509,26 @@ class _DeviceCardState extends TbContextState<DeviceCard> {
         ]
     );
   }
+  Widget buildSmokeSensorRow()
+  {
 
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if(widget.device.timeSeries('smokeState') != "")
+            Icon(Icons.circle, size: 12, color: int.parse(widget.device.timeSeries('smokeState')!) > 0 ? Colors.green : Colors.red ),
+          Text(
+              (widget.device.timeSeries('smokeState') == "") ? "" : int.parse(widget.device.timeSeries('smokeState')!) > 0 ? '정상' : '경고',
+              style: TextStyle(
+                  color: Color(0xFF282828),
+                  fontSize: 14,
+                  fontWeight:
+                  FontWeight.normal,
+                  height: 16 / 12)),
+          SizedBox(width: 12),
+        ]
+    );
+  }
 
 }
